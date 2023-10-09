@@ -19,7 +19,6 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2022-05-01'
   name: 'default'
 }
 
-
 resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-05-01' = {
   name: containerName
   parent: blobService

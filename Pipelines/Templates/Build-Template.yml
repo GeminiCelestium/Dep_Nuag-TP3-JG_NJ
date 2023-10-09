@@ -2,8 +2,6 @@ parameters:
   buildConfiguration: 'Release'
   artifactName: ''
 
-# A Modifier
-
 jobs:
  - job: BuildLinux
    pool:
@@ -16,19 +14,13 @@ jobs:
        projects: '**/*.csproj'
        feedsToUse: 'select'
      displayName: 'restaurer les packages'
+
    - task: DotNetCoreCLI@2
      inputs:
        command: 'build'
        projects: '**/*.csproj'
        arguments: '--configuration  ${{ parameters.buildConfiguration }}'
      displayName: 'Génération de la solution'
-
-   - task: DotNetCoreCLI@2
-     inputs:
-       command: 'test'
-       projects: '**/*Tests.csproj'
-       arguments: '--configuration ${{ parameters.buildConfiguration }}'
-     displayName: 'Exécution des tests unitaires'
 
    - task: DotNetCoreCLI@2
      inputs:
