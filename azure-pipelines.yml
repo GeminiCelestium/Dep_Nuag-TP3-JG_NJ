@@ -1,0 +1,149 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - bicep
+
+variables:
+   artifactName: 'drop'
+   serviceConnection: 'sc-tp3-devops'
+
+
+stages:
+- stage: 'Build'
+  displayName: 'Génération, exécution des tests et publication'
+  jobs:
+  - template: Templates/Build-Template.yml
+    parameters:
+      buildConfiguration: 'Release'
+      artifactName: '$(artifactName)'
+  
+
+- stage: 'DeployToDev'
+  displayName: 'Déploiement en Dev'
+  jobs:
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Build'
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Build'
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Build'
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Build'
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-Template.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+
+
+- stage: 'DeployToProd'
+  displayName: 'Déploiement en Prod'
+  dependsOn: 'DeployToDev'
+  jobs:  
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-Template.yml
+    dependsOn:
+      - 'Deploy-APITemplate-Prod-webapp-documents-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-emplois-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-favoris-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-postulation-jlkc5cyuxxeum'
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+
+
+  - deployment: 'ApproveProdDeployment'
+    displayName: 'Approve Production Deployment'
+    environment: 'Production'
+    dependsOn:
+      - 'Deploy-Template-Prod-webapp-mvc-jlkc5cyuxxeum'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Waiting for approval..."
+            displayName: 'Wait for approval'
+          - task: ApprovalsWait@4
+            inputs:
+              minApprovers: 1
+              timeoutInMinutes: 43200  # TimeOut de 30 minutes
+            displayName: 'Wait for approval'
