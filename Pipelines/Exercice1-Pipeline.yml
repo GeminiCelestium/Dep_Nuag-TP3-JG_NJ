@@ -34,28 +34,28 @@ stages:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+      apiAppName: 'webapp_documents_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+      apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+      apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+      apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
 
 - stage: 'DeployMvcToDev'
   displayName: 'Déploiement du MVC en Dev'
@@ -66,7 +66,7 @@ stages:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+      webAppName: 'webapp_mvc_jlkc5cyuxxeum'
 
 - stage: 'DeployApiToProd'
   displayName: 'Déploiement des API en Prod'
@@ -77,28 +77,28 @@ stages:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+      apiAppName: 'webapp_documents_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+      apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+      apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+      apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
 
 - stage: 'DeployMvcToProd'
   displayName: 'Déploiement du MVC en Prod'
@@ -109,7 +109,7 @@ stages:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+      webAppName: 'webapp_mvc_jlkc5cyuxxeum'
 
   - deployment: 'ApproveProdDeployment'
     displayName: 'Approve Production Deployment'
