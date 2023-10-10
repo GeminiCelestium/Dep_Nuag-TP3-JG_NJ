@@ -123,7 +123,7 @@ stages:
           - task: Approval@1
             inputs:
               parameters:
-                name: 'Production Deployment Approval'
+                #name: 'Production Deployment Approval'
                 emailRecipients: '2145612@cegeplimoilou.ca'
                 taskOrchestration: true
-              condition: succeeded() # L'approbation n'est nécessaire que si les étapes précédentes ont réussi
+              #condition: succeeded() # L'approbation n'est nécessaire que si les étapes précédentes ont réussi
