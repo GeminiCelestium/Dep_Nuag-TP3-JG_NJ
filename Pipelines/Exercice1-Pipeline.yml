@@ -11,10 +11,9 @@ trigger:
     exclude:
       - bicep
 
-# Vérifier les variables et leur nom
 variables:
    artifactName: 'drop'
-   serviceConnection: 'sc-demo-devops'
+   serviceConnection: 'sc-tp3-devops'
 
 stages:
 - stage: 'Build'
@@ -28,74 +27,111 @@ stages:
 - stage: 'DeployToDev'
   displayName: 'Déploiement en Dev'
   jobs:
+  - template: Templates/Deploy-APITemplate.yml
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Build'
+
+  - template: Templates/Deploy-APITemplate.yml
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Build'
+
+  - template: Templates/Deploy-APITemplate.yml
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Build'
+
+  - template: Templates/Deploy-APITemplate.yml
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Build'
+
   - template: Templates/Deploy-Template.yml
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      webAppName: 'webapp-demo-devops'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 1
-    parameters:
-      environment: 'Dev'
-      artifactName: '$(artifactName)'
-      serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-1'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 2
-    parameters:
-      environment: 'Dev'
-      artifactName: '$(artifactName)'
-      serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-2'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 3
-    parameters:
-      environment: 'Dev'
-      artifactName: '$(artifactName)'
-      serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-3'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 4
-    parameters:
-      environment: 'Dev'
-      artifactName: '$(artifactName)'
-      serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-4'
-      
+      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
+
 - stage: 'DeployToProd'
   displayName: 'Déploiement en Prod'
   dependsOn: 'DeployToDev'
-  jobs:
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 1
+  jobs:  
+  - template: Templates/Deploy-APITemplate.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-1-prod'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 2
+      apiAppName: 'webapp-documents-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-2-prod'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 3
+      apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-3-prod'
-  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 4
+      apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-APITemplate.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      apiAppName: 'api-demo-devops-4-prod'
-  - template: Templates/Deploy-MVCTemplate.yml  # Remplacez cela par votre modèle MVC
+      apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
+
+  - template: Templates/Deploy-Template.yml
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
-      webAppName: 'webapp-demo-devops-prod'
+      webAppName: 'webapp-mvc-jlkc5cyuxxeum'
+    dependsOn:
+      - 'Deploy-APITemplate-Prod-webapp-documents-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-emplois-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-favoris-jlkc5cyuxxeum'
+      - 'Deploy-APITemplate-Prod-webapp-postulation-jlkc5cyuxxeum'
+
   - deployment: 'ApproveProdDeployment'
     displayName: 'Approve Production Deployment'
     environment: 'Production'
+    dependsOn:
+      - 'Deploy-Template-Prod-webapp-mvc-jlkc5cyuxxeum'
     strategy:
       runOnce:
         deploy:
@@ -105,5 +141,5 @@ stages:
           - task: ApprovalsWait@4
             inputs:
               minApprovers: 1
-              timeoutInMinutes: 43200  # Définir le timeout en minutes (ici, 30 jours)
+              timeoutInMinutes: 43200  # TimeOut de 30 minutes
             displayName: 'Wait for approval'
