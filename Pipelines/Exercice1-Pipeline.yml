@@ -114,14 +114,13 @@ stages:
   - deployment: 'ApproveProdDeployment'
     displayName: 'Approve Production Deployment'
     environment: 'Production'
-    dependsOn: 'DeployMvcToProd'
     strategy:
       runOnce:
         deploy:
           steps:
           - script: echo "Waiting for approval..."
             displayName: 'Wait for approval'
-          - task: ApprovalsWait@4
+          - task: ManualIntervention@8
             inputs:
               minApprovers: 1
               timeoutInMinutes: 43200  # TimeOut de 30 minutes
