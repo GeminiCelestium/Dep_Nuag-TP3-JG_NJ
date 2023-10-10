@@ -2,7 +2,7 @@ parameters:
     environment: ''
     artifactName: ''
     serviceConnection: ''
-    webAppName: 'test110' # Nom à modifier ?
+    apiAppName: ''
 
 jobs:
 - deployment : 'WebDeploy'
@@ -24,6 +24,6 @@ jobs:
              inputs:
               ConnectionType: 'AzureRM'
               azureSubscription: '${{ parameters.serviceConnection }}'
-              appType: 'webApp'
-              WebAppName: '${{ parameters.webAppName }}'
+              appType: 'apiApp'
+              ApiAppName: '${{ parameters.apiAppName }}'
               package: '$(Build.ArtifactStagingDirectory)/**/*.zip'

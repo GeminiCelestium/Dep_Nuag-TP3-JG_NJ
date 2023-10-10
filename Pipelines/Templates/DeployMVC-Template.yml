@@ -2,7 +2,7 @@ parameters:
     environment: ''
     artifactName: ''
     serviceConnection: ''
-    webAppName: 'test110' # Nom à modifier ?
+    webAppName: ''
 
 jobs:
 - deployment : 'WebDeploy'
