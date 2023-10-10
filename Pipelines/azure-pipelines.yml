@@ -25,13 +25,11 @@ stages:
       buildConfiguration: 'Release'
       artifactName: '$(artifactName)'
   
-
-- stage: 'DeployToDev'
-  displayName: 'Déploiement en Dev'
+- stage: 'DeployApiToDev'
+  displayName: 'Déploiement des API en Dev'
+  dependsOn: 'Build'
   jobs:
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Build'
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
@@ -39,8 +37,6 @@ stages:
       apiAppName: 'webapp-documents-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Build'
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
@@ -48,8 +44,6 @@ stages:
       apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Build'
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
@@ -57,34 +51,28 @@ stages:
       apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Build'
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
 
+- stage: 'DeployMvcToDev'
+  displayName: 'Déploiement du MVC en Dev'
+  dependsOn: 'DeployApiToDev'
+  jobs:
   - template: Templates/Deploy-Template.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
     parameters:
       environment: 'Dev'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp-mvc-jlkc5cyuxxeum'
 
-
-- stage: 'DeployToProd'
-  displayName: 'Déploiement en Prod'
-  dependsOn: 'DeployToDev'
-  jobs:  
+- stage: 'DeployApiToProd'
+  displayName: 'Déploiement des API en Prod'
+  dependsOn: 'DeployMvcToDev'
+  jobs:
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Dev-webapp-documents-jlkc5cyuxxeum'
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
@@ -92,8 +80,6 @@ stages:
       apiAppName: 'webapp-documents-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Dev-webapp-emplois-jlkc5cyuxxeum'
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
@@ -101,8 +87,6 @@ stages:
       apiAppName: 'webapp-emplois-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Dev-webapp-favoris-jlkc5cyuxxeum'
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
@@ -110,26 +94,22 @@ stages:
       apiAppName: 'webapp-favoris-jlkc5cyuxxeum'
 
   - template: Templates/Deploy-APITemplate.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Dev-webapp-postulation-jlkc5cyuxxeum'
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp-postulation-jlkc5cyuxxeum'
 
+- stage: 'DeployMvcToProd'
+  displayName: 'Déploiement du MVC en Prod'
+  dependsOn: 'DeployApiToProd'
+  jobs:
   - template: Templates/Deploy-Template.yml
-    dependsOn:
-      - 'Deploy-APITemplate-Prod-webapp-documents-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Prod-webapp-emplois-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Prod-webapp-favoris-jlkc5cyuxxeum'
-      - 'Deploy-APITemplate-Prod-webapp-postulation-jlkc5cyuxxeum'
     parameters:
       environment: 'Prod'
       artifactName: '$(artifactName)'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp-mvc-jlkc5cyuxxeum'
-
 
   - deployment: 'ApproveProdDeployment'
     displayName: 'Approve Production Deployment'
