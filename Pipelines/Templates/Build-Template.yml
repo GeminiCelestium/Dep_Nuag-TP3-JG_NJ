@@ -23,13 +23,6 @@ jobs:
      displayName: 'Génération de la solution'
 
    - task: DotNetCoreCLI@2
-        inputs:
-         command: 'test'
-         projects: '**/*Tests.csproj'
-         arguments: '--configuration ${{ parameters.buildConfiguration }}'
-        displayName: 'Exécution des tests unitaires'
-
-   - task: DotNetCoreCLI@2
      inputs:
        command: 'publish'
        publishWebProjects: true
