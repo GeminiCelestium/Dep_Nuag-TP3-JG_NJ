@@ -28,7 +28,7 @@
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "stdocuments120"
+      "defaultValue": "stdocuments120jgnj"
     },
     "containerName": {
       "type": "string",

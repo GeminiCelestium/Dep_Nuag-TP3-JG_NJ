@@ -6,7 +6,7 @@ param dbUser string = 'ModernRecrutAdmin'
 @maxLength(20)
 @secure()
 param dbPassword string
-param storageAccountName string = 'stdocuments120'
+param storageAccountName string = 'stdocuments120jgnj'
 param containerName string = 'Images'
 
 var AppSpecs =[

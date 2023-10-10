@@ -1,0 +1,109 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - bicep
+
+# Vérifier les variables et leur nom
+variables:
+   artifactName: 'drop'
+   serviceConnection: 'sc-demo-devops'
+
+stages:
+- stage: 'Build'
+  displayName: 'Génération, exécution des tests et publication'
+  jobs:
+  - template: Templates/Build-Template.yml
+    parameters:
+      buildConfiguration: 'Release'
+      artifactName: '$(artifactName)'
+  
+- stage: 'DeployToDev'
+  displayName: 'Déploiement en Dev'
+  jobs:
+  - template: Templates/Deploy-Template.yml
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      webAppName: 'webapp-demo-devops'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 1
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-1'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 2
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-2'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 3
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-3'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 4
+    parameters:
+      environment: 'Dev'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-4'
+      
+- stage: 'DeployToProd'
+  displayName: 'Déploiement en Prod'
+  dependsOn: 'DeployToDev'
+  jobs:
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 1
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-1-prod'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 2
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-2-prod'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 3
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-3-prod'
+  - template: Templates/Deploy-APITemplate.yml  # Remplacez cela par votre modèle API 4
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      apiAppName: 'api-demo-devops-4-prod'
+  - template: Templates/Deploy-MVCTemplate.yml  # Remplacez cela par votre modèle MVC
+    parameters:
+      environment: 'Prod'
+      artifactName: '$(artifactName)'
+      serviceConnection: '$(serviceConnection)'
+      webAppName: 'webapp-demo-devops-prod'
+  - deployment: 'ApproveProdDeployment'
+    displayName: 'Approve Production Deployment'
+    environment: 'Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Waiting for approval..."
+            displayName: 'Wait for approval'
+          - task: ApprovalsWait@4
+            inputs:
+              minApprovers: 1
+              timeoutInMinutes: 43200  # Définir le timeout en minutes (ici, 30 jours)
+            displayName: 'Wait for approval'
