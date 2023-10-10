@@ -5,7 +5,7 @@ parameters:
     webAppName: ''
 
 jobs:
-- deployment : 'WebDeploy'
+- deployment : '${WebDeploy{ parameters.webAppName }}'
   pool: 
     vmImage: 'ubuntu-latest'
   environment: '${{ parameters.environment }}'
