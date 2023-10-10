@@ -23,7 +23,7 @@ namespace ModernRecrut.MVC.Controllers
         private readonly ILogger<PostulationController> _logger;
        
 
-        public PostulationController(IGestionEmploisService gestionEmploisServiceProxy, IWebHostEnvironment env, IGestionPostulationsService gestionPostulationsServiceProxy, UserManager<ModernRecrutMVCUser> userManager, IGestionDocumentsService gestionDocumentsServiceProxy, ILogger<PostulationController> logger)
+        public PostulationController(IGestionEmploisService gestionEmploisServiceProxy, IWebHostEnvironment env, IGestionPostulationsService gestionPostulationsServiceProxy, UserManager<ModernRecrutMVCUser> userManager, IGestionDocumentsService gestionDocumentsServiceProxy, ILogger<PostulationController> logger, IDataProtectionProvider @object)
         {
             _gestionEmploisServiceProxy = gestionEmploisServiceProxy;
             _gestionPostulationsServiceProxy = gestionPostulationsServiceProxy;
