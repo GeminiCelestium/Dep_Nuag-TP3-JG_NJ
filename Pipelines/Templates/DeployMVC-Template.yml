@@ -20,6 +20,11 @@ jobs:
                artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
 
+           - script: |
+            echo "Listing files in the artifacts directory:"
+            ls $(System.ArtifactsDirectory)
+          displayName: 'List Artifacts'
+          
            - task: AzureRmWebAppDeployment@4
              inputs:
               ConnectionType: 'AzureRM'
