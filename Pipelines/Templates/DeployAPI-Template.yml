@@ -19,7 +19,7 @@ jobs:
                downloadType: 'single'
                artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
-              displayName: 'Téléchargement du package'
+              #displayName: 'Téléchargement du package'
 
            - task: AzureRmWebAppDeployment@4
              inputs:
