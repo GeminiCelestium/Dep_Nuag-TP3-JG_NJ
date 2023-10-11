@@ -4,10 +4,10 @@ parameters:
     serviceConnection: ''
     apiAppName: ''
 
+pool: 
+    vmImage: 'ubuntu-latest'
 jobs:
 - deployment : '${{ parameters.apiAppName }}'
-  pool: 
-    vmImage: 'ubuntu-latest'
   environment: '${{ parameters.environment }}'
   strategy:
         runOnce:
@@ -20,10 +20,11 @@ jobs:
                artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
 
-           - task: AzureRmWebAppDeployment@4
-             inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: '${{ parameters.serviceConnection }}'
-              appType: 'apiApp'
-              WebAppName: '${{ parameters.apiAppName }}'
-              package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+           - task: AzureWebApp@1
+           inputs:
+            azureSubscription: '${{ parameters.serviceConnection }}'
+            appType: 'apiApp'
+            appName: '${{ parameters.apiAppName }}'
+            package: '$(System.ArtifactsDirectory)/**/*.zip'
+            deploymentMethod: 'auto's
+           displayName: 'Déploiement de application'

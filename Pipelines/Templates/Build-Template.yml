@@ -37,7 +37,7 @@ jobs:
         arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Génération du package de publication MVC'
 
-- task: DotNetCoreCLI@2
+   - task: DotNetCoreCLI@2
       inputs:
         command: 'publish'
         publishWebProjects: false
