@@ -21,10 +21,15 @@ jobs:
                downloadPath: '$(System.ArtifactsDirectory)'
 
            - script: |
-            echo "Listing files in the artifacts directory:"
-            ls $(System.ArtifactsDirectory)
-          displayName: 'List Artifacts'
-          
+                echo "Listing files in the artifacts directory:"
+                if [ -d "$(System.ArtifactsDirectory)" ]; then
+                  ls "$(System.ArtifactsDirectory)" # for Linux agents
+                else
+                  dir "$(System.ArtifactsDirectory)" # for Windows agents
+                fi
+              displayName: 'List Artifacts'
+
+
            - task: AzureRmWebAppDeployment@4
              inputs:
               ConnectionType: 'AzureRM'
