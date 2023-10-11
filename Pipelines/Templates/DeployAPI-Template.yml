@@ -4,17 +4,16 @@ parameters:
     serviceConnection: ''
     apiAppName: ''
 
-
 jobs:
-- pool: 
-    vmImage: 'ubuntu-latest'
 - deployment : '${{ parameters.apiAppName }}'
+  pool: 
+    vmImage: 'ubuntu-latest'
   environment: '${{ parameters.environment }}'
   strategy:
         runOnce:
          deploy:
            steps:
-           - task: DownloadBuildArtifacts@0
+           - task: DownloadBuildArtifacts@1
              inputs:
                buildType: 'current'
                downloadType: 'single'
@@ -28,5 +27,5 @@ jobs:
                 appType: 'apiApp'
                 appName: '${{ parameters.apiAppName }}'
                 package: '$(System.ArtifactsDirectory)/**/*.zip'
-                deploymentMethod: 'auto's
+                deploymentMethod: 'auto'
               displayName: 'Déploiement de application'
