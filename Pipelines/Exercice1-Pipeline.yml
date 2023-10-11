@@ -12,6 +12,7 @@ trigger:
       - bicep
 
 variables:
+   buildConfiguration: 'Release'
    artifactName: 'drop'
    serviceConnection: 'sc-tp3-devops'
 
@@ -22,8 +23,8 @@ stages:
   jobs:
   - template: Templates/Build-Template.yml
     parameters:
-      buildConfiguration: 'Release'
-      artifactName: '$(artifactName)'
+      buildConfiguration: '${{ variables.buildConfiguration }}'
+      artifactName: '${{ variables.artifactName }}'
   
 - stage: 'DeployApiToDev'
   displayName: 'Déploiement des API en Dev'
