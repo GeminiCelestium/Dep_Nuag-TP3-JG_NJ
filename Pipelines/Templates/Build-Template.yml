@@ -32,7 +32,8 @@ jobs:
    - task: DotNetCoreCLI@2
      inputs:
        command: 'publish'
-       publishWebProjects: true
+       publishWebProjects: false
+       projects: '**/*MVC.csproj || **/*Tests.csproj'
        arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
      displayName: 'Génération du package de publication'
 
