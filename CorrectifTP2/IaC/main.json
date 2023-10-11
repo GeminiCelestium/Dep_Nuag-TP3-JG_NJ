@@ -28,7 +28,7 @@
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "stdocuments120jgnj"
+      "defaultValue": "stdocuments120jgn"
     },
     "containerName": {
       "type": "string",
@@ -76,7 +76,7 @@
         "count": "[length(variables('AppSpecs'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2015-11-01",
       "name": "[variables('AppSpecs')[copyIndex()].name]",
       "properties": {
         "expressionEvaluationOptions": {
@@ -251,7 +251,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2015-11-01",
       "name": "Databases",
       "properties": {
         "expressionEvaluationOptions": {
@@ -350,7 +350,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2015-11-01",
       "name": "Storage",
       "properties": {
         "expressionEvaluationOptions": {

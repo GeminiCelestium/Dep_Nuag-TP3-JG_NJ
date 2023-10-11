@@ -1,4 +1,4 @@
-param actionGroupName string = 'Alert Delete'
+param actionGroupName string = 'AlertDelete'
 param location string = 'Global'
 
 var actionGroupEmail = '1843085@cegeplimoilou.ca'
@@ -20,10 +20,11 @@ resource AlertAction 'Microsoft.Insights/actionGroups@2023-01-01' = {
 }
 
 param alertRuleName string = 'DocumentDeletedAlert'
-param storageAccountName string = 'stdocuments120jgnj'
+param storageAccountName string = 'stdocuments120jgn'
 
-resource storageAccountAction 'Microsoft.Insights/ActionGroups/ActionRules@2023-01-01' = {
-  name: '${AlertAction.name}/${alertRuleName}'
+resource storageAccountAction 'Microsoft.Insights/actionGroups/ActionRules@2023-01-01' = {
+  parent: AlertAction
+  name: alertRuleName
   location: 'Global'
   properties: {
     description: 'Alerte quand un document est supprimé'
@@ -50,3 +51,4 @@ resource storageAccountAction 'Microsoft.Insights/ActionGroups/ActionRules@2023-
     }
   }
 }
+

@@ -1,12 +1,12 @@
 param location string = resourceGroup().location
-param serverName string = 'modernrecrut120'
+param serverName string = 'modernrecrut120J'
 
 param dbUser string = 'ModernRecrutAdmin'
 @minLength(10)
 @maxLength(20)
 @secure()
 param dbPassword string
-param storageAccountName string = 'stdocuments120jgnj'
+param storageAccountName string = 'stdocuments120jgn'
 param containerName string = 'Images'
 
 var AppSpecs =[
@@ -76,7 +76,7 @@ module DeleteAlert 'Modules/DeleteAlert.bicep' = {
   name:'DeleteAlert'
   params:{
     location:location
-    alertRuleName: 'DocumentDeletedAlert'
+    alertRuleName: 'DeleteAlert'
     storageAccountName: 'stdocuments120jgn'
     actionGroupName: 'AlertAction'
   }
