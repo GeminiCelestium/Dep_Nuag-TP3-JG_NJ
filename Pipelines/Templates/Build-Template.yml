@@ -33,7 +33,7 @@ jobs:
      inputs:
        command: 'publish'
        publishWebProjects: true
-       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+       arguments: '--configuration ${{ parameters.buildConfiguration }}'
      displayName: 'Génération du package de publication'
 
    - task: PublishBuildArtifacts@1
