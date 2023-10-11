@@ -3,6 +3,7 @@ parameters:
     artifactName: ''
     serviceConnection: ''
     apiAppName: ''
+    nomComplet: ''
 
 jobs:
 - deployment : '${{ parameters.apiAppName }}'
@@ -17,9 +18,9 @@ jobs:
              inputs:
                buildType: 'current'
                downloadType: 'single'
-               artifactName: '${{ parameters.artifactName }}${{ parameters.apiAppName }}'
+               artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
-              #displayName: 'Téléchargement du package'
+              #displayName: 'Téléchargement du package' Bonne idée mais empêche le tout de fonctionner
 
            - task: AzureRmWebAppDeployment@4
              inputs:
@@ -27,5 +28,5 @@ jobs:
                azureSubscription: '${{ parameters.serviceConnection }}'
                appType: 'webApp'
                WebAppName: '${{ parameters.apiAppName }}'
-               package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-             #displayName: 'Déploiement de l'API'
+               package: '$(Build.ArtifactStagingDirectory)/**/{{ parameters.nomComplet }}.zip'
+             #displayName: 'Déploiement de l'API' Bonne idée mais empêche le tout de fonctionner
