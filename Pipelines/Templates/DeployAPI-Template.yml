@@ -19,13 +19,11 @@ jobs:
                downloadType: 'single'
                artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
-              displayName: 'Téléchargement du package'
 
-           - task: AzureWebApp@1
-              inputs:
-                azureSubscription: '${{ parameters.serviceConnection }}'
-                appType: 'apiApp'
-                appName: '${{ parameters.apiAppName }}'
-                package: '$(System.ArtifactsDirectory)/**/*.zip'
-                deploymentMethod: 'auto'
-              displayName: 'Déploiement de application'
+           - task: AzureRmWebAppDeployment@4
+             inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '${{ parameters.serviceConnection }}'
+              appType: 'apiApp'
+              WebAppName: '${{ parameters.apiAppName }}'
+              package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
