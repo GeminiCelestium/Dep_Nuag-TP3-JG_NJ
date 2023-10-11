@@ -28,4 +28,4 @@ jobs:
                appType: 'webApp'
                WebAppName: '${{ parameters.webAppName }}'
                package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-             displayName: 'Déploiement de application' 
+             displayName: 'Déploiement du MVC' 

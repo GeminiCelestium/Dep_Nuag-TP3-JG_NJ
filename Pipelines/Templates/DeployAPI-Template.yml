@@ -17,7 +17,7 @@ jobs:
              inputs:
                buildType: 'current'
                downloadType: 'single'
-               artifactName: '${{ parameters.artifactName }}'
+               artifactName: '${{ parameters.artifactName } { apiAppName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
               #displayName: 'Téléchargement du package'
 
@@ -28,4 +28,4 @@ jobs:
                appType: 'webApp'
                WebAppName: '${{ parameters.apiAppName }}'
                package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-             displayName: 'Déploiement de application'
+             displayName: 'Déploiement de l'API'
