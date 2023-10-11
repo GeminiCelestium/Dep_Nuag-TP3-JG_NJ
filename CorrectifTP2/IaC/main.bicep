@@ -71,3 +71,13 @@ module StorageAcount 'Modules/StorageAccount.bicep' = {
         containerName:containerName
     }
 }
+
+module DeleteAlert 'Modules/DeleteAlert.bicep' = {
+  name:'DeleteAlert'
+  params:{
+    location:location
+    alertRuleName: 'DocumentDeletedAlert'
+    storageAccountName: 'stdocuments120jgn'
+    actionGroupName: 'AlertAction'
+  }
+}
