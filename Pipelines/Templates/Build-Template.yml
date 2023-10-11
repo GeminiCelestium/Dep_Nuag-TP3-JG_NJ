@@ -13,7 +13,7 @@ jobs:
        command: 'restore'
        projects: '**/*.csproj'
        feedsToUse: 'select'
-     displayName: 'restaurer les packages'
+     displayName: 'Restauration des packages'
 
    - task: DotNetCoreCLI@2
      inputs:
@@ -23,22 +23,31 @@ jobs:
      displayName: 'Génération de la solution'
 
    - task: DotNetCoreCLI@2
-        inputs:
-         command: 'test'
-         projects: '**/*Tests.csproj'
-         arguments: '--configuration ${{ parameters.buildConfiguration }}'
-        displayName: 'Exécution des tests unitaires'
+     inputs:
+       command: 'test'
+       projects: '**/*Tests.csproj'
+       arguments: '--configuration ${{ parameters.buildConfiguration }}'
+     displayName: 'Exécution des tests unitaires'
 
    - task: DotNetCoreCLI@2
-     inputs:
-       command: 'publish'
-       publishWebProjects: true
-       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
-     displayName: 'Génération du package de publication'
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*MVC.csproj'
+        arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+      displayName: 'Génération du package de publication MVC'
+
+- task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*Tests.csproj'
+        arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+      displayName: 'Génération du package de publication Tests'
 
    - task: PublishBuildArtifacts@1
      inputs:
        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-       ArtifactName: ${{ parameters.artifactName }}
+       ArtifactName: '${{ parameters.artifactName }}'
        publishLocation: 'Container'
      displayName: 'Publication du package dans Azure DevOps'

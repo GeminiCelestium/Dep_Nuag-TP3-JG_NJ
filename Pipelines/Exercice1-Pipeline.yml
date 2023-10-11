@@ -120,6 +120,6 @@ stages:
       timeoutInMinutes: 1440 # task times out in 1 day
       inputs:
           notifyUsers: |
-              2145612@cegeplimoilou.ca
+              1843085@cegeplimoilou.ca
           instructions: 'Please validate the build configuration and resume'
           onTimeout: 'resume'
