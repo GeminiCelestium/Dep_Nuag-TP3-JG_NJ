@@ -37,12 +37,11 @@ jobs:
      displayName: 'Génération du package de publication'
 
     - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: '**/*Tests.csproj'
-        arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
-      displayName: 'Génération du package de publication Tests'
+     inputs:
+       command: 'publish'
+       publishWebProjects: true
+       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+     displayName: 'Génération du package de publication afds'
 
    - task: PublishBuildArtifacts@1
      inputs:
