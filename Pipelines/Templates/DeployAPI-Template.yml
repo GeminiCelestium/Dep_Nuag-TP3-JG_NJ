@@ -4,9 +4,10 @@ parameters:
     serviceConnection: ''
     apiAppName: ''
 
-pool: 
-    vmImage: 'ubuntu-latest'
+
 jobs:
+- pool: 
+    vmImage: 'ubuntu-latest'
 - deployment : '${{ parameters.apiAppName }}'
   environment: '${{ parameters.environment }}'
   strategy:
@@ -19,12 +20,13 @@ jobs:
                downloadType: 'single'
                artifactName: '${{ parameters.artifactName }}'
                downloadPath: '$(System.ArtifactsDirectory)'
+              displayName: 'Téléchargement du package'
 
            - task: AzureWebApp@1
-           inputs:
-            azureSubscription: '${{ parameters.serviceConnection }}'
-            appType: 'apiApp'
-            appName: '${{ parameters.apiAppName }}'
-            package: '$(System.ArtifactsDirectory)/**/*.zip'
-            deploymentMethod: 'auto's
-           displayName: 'Déploiement de application'
+              inputs:
+                azureSubscription: '${{ parameters.serviceConnection }}'
+                appType: 'apiApp'
+                appName: '${{ parameters.apiAppName }}'
+                package: '$(System.ArtifactsDirectory)/**/*.zip'
+                deploymentMethod: 'auto's
+              displayName: 'Déploiement de application'
