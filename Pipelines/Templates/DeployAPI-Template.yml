@@ -28,5 +28,5 @@ jobs:
                azureSubscription: '${{ parameters.serviceConnection }}'
                appType: 'webApp'
                WebAppName: '${{ parameters.apiAppName }}'
-               package: '$(Build.ArtifactStagingDirectory)/**/{{ parameters.nomComplet }}.zip'
+               package: '$(Build.ArtifactStagingDirectory)/**/${{ parameters.nomComplet }}.zip'
              #displayName: 'Déploiement de l'API' Bonne idée mais empêche le tout de fonctionner
