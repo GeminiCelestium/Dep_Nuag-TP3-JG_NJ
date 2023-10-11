@@ -12,6 +12,7 @@ trigger:
       - bicep
 
 variables:
+   buildConfiguration: 'Release'
    artifactName: 'drop'
    serviceConnection: 'sc-tp3-devops'
 
@@ -22,8 +23,8 @@ stages:
   jobs:
   - template: Templates/Build-Template.yml
     parameters:
-      buildConfiguration: 'Release'
-      artifactName: '$(artifactName)'
+      buildConfiguration: '${{ variables.buildConfiguration }}'
+      artifactName: '${{ variables.artifactName }}'
   
 - stage: 'DeployApiToDev'
   displayName: 'Déploiement des API en Dev'
@@ -32,30 +33,34 @@ stages:
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_documents_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Documents.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Emplois.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Favoris.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Postulation.API'
 
 - stage: 'DeployMvcToDev'
   displayName: 'Déploiement du MVC en Dev'
@@ -64,9 +69,10 @@ stages:
   - template: Templates/DeployMVC-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp_mvc_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.MVC'
 
 - stage: 'DeployApiToProd'
   displayName: 'Déploiement des API en Prod'
@@ -75,30 +81,34 @@ stages:
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_documents_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Documents.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Emplois.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Favoris.API'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.Postulation.API'
 
 - stage: 'DeployMvcToProd'
   displayName: 'Déploiement du MVC en Prod'
@@ -107,9 +117,10 @@ stages:
   - template: Templates/DeployMVC-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp_mvc_jlkc5cyuxxeum'
+      nomComplet: 'ModernRecrut.MVC'
 
   - job: waitForValidation
     displayName: Wait for external validation  
