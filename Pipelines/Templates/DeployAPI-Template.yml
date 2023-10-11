@@ -25,5 +25,5 @@ jobs:
               ConnectionType: 'AzureRM'
               azureSubscription: '${{ parameters.serviceConnection }}'
               appType: 'apiApp'
-              ApiAppName: '${{ parameters.apiAppName }}'
+              WebAppName: '${{ parameters.apiAppName }}'
               package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
