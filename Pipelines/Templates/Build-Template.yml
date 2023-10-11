@@ -48,6 +48,6 @@ jobs:
    - task: PublishBuildArtifacts@1
      inputs:
        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-       ArtifactName: ${{ parameters.artifactName }}
+       ArtifactName: '${{ parameters.artifactName }}'
        publishLocation: 'Container'
      displayName: 'Publication du package dans Azure DevOps'
