@@ -24,10 +24,20 @@ jobs:
 
    - task: DotNetCoreCLI@2
      inputs:
-       command: 'publish'
-       publishWebProjects: true
-       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
-     displayName: 'Génération du package de publication'
+       command: 'test'
+       projects: '**/*Tests.csproj'
+       arguments: '--configuration ${{ parameters.buildConfiguration }}'
+     displayName: 'Exécution des tests unitaires'  
+
+   
+
+   - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*MVC.csproj && **/*Tests.csproj'
+        arguments: '--configuration ${{ parameters.buildConfiguration }}'
+      displayName: 'Génération du package de publication'
 
    - task: PublishBuildArtifacts@1
      inputs:
