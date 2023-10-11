@@ -33,28 +33,28 @@ stages:
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_documents_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
 
@@ -65,7 +65,7 @@ stages:
   - template: Templates/DeployMVC-Template.yml
     parameters:
       environment: 'Dev'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp_mvc_jlkc5cyuxxeum'
 
@@ -76,28 +76,28 @@ stages:
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_documents_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_emplois_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_favoris_jlkc5cyuxxeum'
 
   - template: Templates/DeployAPI-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       apiAppName: 'webapp_postulation_jlkc5cyuxxeum'
 
@@ -108,7 +108,7 @@ stages:
   - template: Templates/DeployMVC-Template.yml
     parameters:
       environment: 'Prod'
-      artifactName: '$(artifactName)'
+      artifactName: '${{ variables.artifactName }}'
       serviceConnection: '$(serviceConnection)'
       webAppName: 'webapp_mvc_jlkc5cyuxxeum'
 
